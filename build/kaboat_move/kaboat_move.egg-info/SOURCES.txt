@@ -1,0 +1,13 @@
+package.xml
+setup.cfg
+setup.py
+kaboat_move/__init__.py
+kaboat_move/coordinate_move.py
+kaboat_move.egg-info/PKG-INFO
+kaboat_move.egg-info/SOURCES.txt
+kaboat_move.egg-info/dependency_links.txt
+kaboat_move.egg-info/entry_points.txt
+kaboat_move.egg-info/requires.txt
+kaboat_move.egg-info/top_level.txt
+kaboat_move.egg-info/zip-safe
+resource/kaboat_move

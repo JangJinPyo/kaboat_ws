@@ -1,0 +1,3 @@
+[console_scripts]
+coordinate_move = kaboat_move.coordinate_move:main
+

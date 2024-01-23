@@ -1,0 +1,9 @@
+source;share/kaboat_move/hook/pythonpath.ps1
+source;share/kaboat_move/hook/pythonpath.dsv
+source;share/kaboat_move/hook/pythonpath.sh
+source;share/kaboat_move/hook/ament_prefix_path.ps1
+source;share/kaboat_move/hook/ament_prefix_path.dsv
+source;share/kaboat_move/hook/ament_prefix_path.sh
+source;../../build/kaboat_move/share/kaboat_move/hook/pythonpath_develop.ps1
+source;../../build/kaboat_move/share/kaboat_move/hook/pythonpath_develop.dsv
+source;../../build/kaboat_move/share/kaboat_move/hook/pythonpath_develop.sh

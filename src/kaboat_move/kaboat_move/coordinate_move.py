@@ -1,3 +1,4 @@
+from numpy import arccos, arcsin, cos, sin
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
@@ -9,6 +10,9 @@ LIN_MAX = 0.22
 ANG_MAX = 2.84
 MAX_SLICE = 8
 
+Target_X = 0.0
+Target_Y = 0.0
+Threshold = 1.0
 
 class Hbmove(Node):
     def __init__(self):
@@ -23,8 +27,6 @@ class Hbmove(Node):
         self.scan_avg = [0.0 for _ in range(MAX_SLICE)]
         self.msg = Twist()
         self.clock = self.get_clock()
-        self.declare_parameter("start", False)
-        self.start = self.get_parameter("start").value
 
     def update(self):
         # update variables self.msg, self.scan, self.camera
@@ -32,8 +34,7 @@ class Hbmove(Node):
             self.msg.linear.x = 0.0
         else:
             self.msg.linear.x = LIN_MAX
-            self.get_logger().info(f"{self.clock.now().nanoseconds}")
-        self.get_logger().info(f'{self.get_parameter("start").value}')
+        self.get_logger().info(f"Targeting Location (x,y) = ({Target_X},{Target_Y})")
 
     def turtle_callback(self):
         self.msg = self.speed_limit(self.msg)
@@ -52,13 +53,14 @@ class Hbmove(Node):
 
     def scan_callback(self, msg: LaserScan):
         self.scan = msg
-        for i in range(MAX_SLICE):
-            self.scan_avg[i] = sum(
-                msg.ranges[i * (360 // MAX_SLICE) : (i + 1) * (360 // MAX_SLICE)]
-            ) / (360 // MAX_SLICE)
-        for i, v in enumerate(self.scan_avg):
-            self.get_logger().info(f"Recived msg[{i}]: {v}")
-
+        for i in range(0,360):
+            if msg.ranges[i] > 12.0:
+                msg.ranges[i] = 12.0
+            if i+1 >= 360:
+                msg.ranges[i+1] = msg.ranges[359]
+                if abs(msg.ranges[i] - msg.ranges[i+1]) > Threshold:
+                    Target_X = cos(i) * msg.ranges[i]
+                    Target_Y = sin(i) * msg.ranges[i]
 
 def main():
     rclpy.init()
@@ -68,7 +70,6 @@ def main():
     except KeyboardInterrupt:
         node.destroy_node()
         rclpy.shutdown()
-
 
 if __name__ == "__main__":
     main()

@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "coordinate_move = kaboat_move.coordinate_move:main"
         ],
     },
 )
